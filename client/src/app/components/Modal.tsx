@@ -19,7 +19,7 @@ const timeChanger = (time: Date) => {
 
 export default function Modal({ setModal, modalProjectId, type }: Prop) {
     const cancelButtonRef = useRef(null)
-    const [registerValues, setRegisterValues] = useState<TimeRegistrations>({ project_id: modalProjectId })
+    const [registerValues, setRegisterValues] = useState<TimeRegistrations>({ project_id: modalProjectId, description: '', time: 30 })
 
     const { data, loading, error } = useFetch(`${BASE_URL}/projects/${modalProjectId}`, type === INPUT ? false : true)
     const project = data as Project
@@ -76,7 +76,7 @@ export default function Modal({ setModal, modalProjectId, type }: Prop) {
                             <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                     <div className="sm:flex sm:items-start justify-center">
-                                        <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-6/12">
+                                        <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-">
                                             <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900 p-2">
                                                 {type === INPUT ? "Register New Time" : "View of Project"}
                                             </Dialog.Title>

@@ -9,11 +9,12 @@ export default function useFetch(url: string, shouldFetch = true) {
 
 
     useEffect(() => {
+        const controller = new AbortController()
         if (shouldFetch) {
             (async () => {
                 setLoading(true)
                 try {
-                    const controller = new AbortController()
+
                     const response = await axios.get(url, { signal: controller.signal })
                     setData(response.data);
                 } catch (err) {
@@ -23,6 +24,8 @@ export default function useFetch(url: string, shouldFetch = true) {
                 }
             })();
         }
+
+        return () => controller?.abort()
     }, [url]);
 
     return { loading, error, data, setData }
