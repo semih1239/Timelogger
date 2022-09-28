@@ -107,6 +107,13 @@ namespace Timelogger.Api
                     Description="Homepage Api",
                     Time = 60,
                     Date = new DateTime(2022,09,22,18,24,12)
+                },
+                new Time_registration
+                {
+                    Project_id=3,
+                    Description="Homepage Api",
+                    Time = 40,
+                    Date = new DateTime(2022,09,24,18,24,12)
                 }
             };
 
@@ -115,14 +122,21 @@ namespace Timelogger.Api
                 {
                     Id = 1,
                     Name = "E-conomic Task",
-                    Deadline = "27-09-2022 23:59",
+                    Deadline = new DateTime(2022,10,01,23,59,59),
                     Status = true
                 },
                 new Project
                 {
                     Id = 2,
                     Name = "Web App",
-                    Deadline = "30-09-2022 23:59",
+                    Deadline = new DateTime(2022,09,30,23,59,59),
+                    Status = false
+                },
+                new Project
+                {
+                    Id = 3,
+                    Name = "AWS Course",
+                    Deadline = new DateTime(2022,10,02,23,59,59),
                     Status = false
                 },
                 };
@@ -136,12 +150,6 @@ namespace Timelogger.Api
             {
                 context.Registrations.Add(registration);
             });
-            // {
-            // 	Id = 1,
-            // 	Name = "e-conomic Interview"
-            // };
-
-            // context.Projects.Add(project);
 
             context.SaveChanges();
         }

@@ -6,7 +6,7 @@ namespace Timelogger.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Deadline { get; set; }
+        public DateTime Deadline { get; set; }
         public List<Time_registration> Time_registrations { get; set; }
         public bool Status { get; set; }
     }

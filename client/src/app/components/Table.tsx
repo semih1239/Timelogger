@@ -1,72 +1,67 @@
 import React, { ReactElement } from "react";
-// import { Project } from "../interface";
-import { Project } from "../interface";
+import moment from "moment";
+import { INPUT, Project } from "../interface";
 
-interface Table {
-    projects: Project[] | undefined;
-    setAddRegistrationModal: React.Dispatch<React.SetStateAction<boolean>>;
-    setViewModal: React.Dispatch<React.SetStateAction<boolean>>;
-    setModalProject: React.Dispatch<React.SetStateAction<number | undefined>>;
+interface Prop {
+    projects: Project[];
+    setModalProjectId: React.Dispatch<React.SetStateAction<number | null>>;
+    setModalType: React.Dispatch<React.SetStateAction<string>>;
+    setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Table(props: Table) {
+const timeChanger = (time: Date) => {
+    return moment(time).format("DD-MM-YYYY HH:MM")
+}
 
-    const spendedTime = (registrations: object[]): number => {
+const thead = ["ID", "Project Name", "Time Spent (hour)", "Deadline", "Status", "Action"]
+
+export default function Table({ projects, setModalProjectId, setModalType, setModal }: Prop) {
+
+    const spendedTime = (registrations: object[]): string => {
         const sum = registrations.reduce((accumulator, object: any) => {
             return accumulator + object.time;
         }, 0);
-        return sum;
+
+        const minutes = sum % 60;
+        const hours = Math.floor(sum / 60);
+        return `${hours}:${minutes}`;
     }
 
     return (
         <table className="table-fixed w-full">
             <thead className="bg-gray-200">
                 <tr>
-                    <th className="border px-4 py-2 w-12">ID</th>
-                    <th className="border px-4 py-2">Project Name</th>
-                    <th className="border px-4 py-2">Time Spent (minute)</th>
-                    <th className="border px-4 py-2">Deadline</th>
-                    <th className="border px-4 py-2">Status</th>
-                    <th className="border px-4 py-2">Action</th>
+                    {thead.map(head => (<th className={`border px-4 py-2 ${head === thead[0] ? "w-12" : null}`} key={head}>{head}</th>))}
                 </tr>
             </thead>
             <tbody>
-                {props.projects && props.projects.map((project): ReactElement => {
+                {projects && projects.map((project): ReactElement => {
                     return <tr key={project.id}>
                         <td className="border px-4 py-2 w-12">{project.id}</td>
                         <td className="border px-4 py-2">{project.name}</td>
                         <td className="border px-4 py-2">{spendedTime(project.time_registrations)}</td>
-                        <td className="border px-4 py-2">{project.deadline}</td>
+                        <td className="border px-4 py-2">{timeChanger(project.deadline)}</td>
                         <td className="border px-4 py-2">{project.status ? "Done" : "On Process"}</td>
-                        <td className="border px-4 py-2" style={{ display: "flex", justifyContent: "space-between" }}>
-                            <button disabled={project.status} onClick={() => { props.setModalProject(project.id); props.setAddRegistrationModal(true); }}>
-                                Add
-                            </button>
-                            <button onClick={() => { props.setModalProject(project.id); props.setViewModal(true); }}>
+                        <td className="border px-4 py-2 flex justify-around" >
+                            {!project.status && <button className={"text-blue-900 font-bold"}
+                                onClick={() => {
+                                    setModalProjectId(project.id);
+                                    setModalType(INPUT)
+                                    setModal(true);
+                                }}>
+                                Add Entry
+                            </button>}
+                            <button className="text-blue-900 font-bold"
+                                onClick={() => {
+                                    setModalProjectId(project.id);
+                                    setModalType("text")
+                                    setModal(true);
+                                }}>
                                 View
                             </button>
                         </td>
                     </tr>
-
                 })}
-                {/* <tr>
-                    <td className="border px-4 py-2 w-12">1</td>
-                    <td className="border px-4 py-2">Project 1</td>
-                    <td className="border px-4 py-2">abc</td>
-                    <td className="border px-4 py-2">xyz</td>
-                </tr>
-                <tr>
-                    <td className="border px-4 py-2 w-12">2</td>
-                    <td className="border px-4 py-2">Project 2</td>
-                    <td className="border px-4 py-2">abc</td>
-                    <td className="border px-4 py-2">xyz</td>
-                </tr>
-                <tr>
-                    <td className="border px-4 py-2 w-12">3</td>
-                    <td className="border px-4 py-2">Project 3</td>
-                    <td className="border px-4 py-2">abc</td>
-                    <td className="border px-4 py-2">xyz</td>
-                </tr> */}
             </tbody>
         </table>
     );

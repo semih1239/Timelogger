@@ -1,5 +1,6 @@
-export interface Time_registrations {
-    project_id: number | undefined;
+export interface TimeRegistrations {
+    id?: number;
+    project_id: number | null;
     time?: number;
     description?: string;
     date?: Date;
@@ -8,8 +9,10 @@ export interface Time_registrations {
 export interface Project {
     id: number;
     name: string;
-    time_registrations: [Time_registrations];
+    time_registrations: [TimeRegistrations];
     deadline: Date;
     status: boolean;
 }
 
+
+export const INPUT = "input"
