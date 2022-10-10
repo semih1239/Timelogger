@@ -1,4 +1,6 @@
-# e-conomic & sproom hiring task
+# My E-conomic assignment solution
+
+## e-conomic & sproom hiring task
 
 As a part of the e-conomic/sproom recruitment process we ask our candidates to complete a practical development challenge. The challenge consists of two parts:
 
