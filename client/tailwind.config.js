@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./src/**/*.tsx"],
   theme: {
-    extend: {},
+    extend: {
+      minHeight: {
+        "q": '25vh',
+      }
+    },
   },
   plugins: [],
 }
